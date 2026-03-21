@@ -31,7 +31,7 @@ export default async function SettingsPage() {
         <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-950">
             <Sidebar className="hidden w-64 border-r lg:block" />
             <div className="flex flex-1 flex-col">
-                <Header />
+                <Header onMenuClick={() => {}} />
                 <main className="flex-1 p-4 md:p-8">
                     <div className="mx-auto max-w-4xl space-y-8">
                         <div>

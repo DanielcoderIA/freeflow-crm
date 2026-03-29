@@ -1,4 +1,3 @@
-"use client";
 
 import { useEffect, useState } from "react";
 import { LayoutDashboard, Users, FolderKanban, Settings, DollarSign, FileText, CreditCard } from "lucide-react";

@@ -1,4 +1,3 @@
-'use client';
 import { createClient } from "@/lib/server-supabase";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
@@ -27,7 +26,7 @@ export default async function ClientsPage() {
         <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-950">
             <Sidebar className="hidden w-64 border-r lg:block" />
             <div className="flex flex-1 flex-col">
-                <Header onMenuClick={() => {}} />
+                <Header />
                                     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
                     <div className="flex items-center justify-between">
                         <h1 className="text-lg font-semibold md:text-2xl">Clients</h1>

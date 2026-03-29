@@ -9,13 +9,16 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, CreditCard } from "lucide-react";
-import { createCheckoutSession } from "./actions";
+import { Check } from "lucide-react";
+
+// 1. IMPORTANTE: Importamos el botón nuevo que creaste
+import { UpgradeButton } from "@/components/billing/UpgradeButton";
 
 export default async function BillingPage() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
+    // 2. Traemos el perfil del usuario para saber si ya es Pro
     const { data: profile } = await supabase
         .from("profiles")
         .select("subscription_tier")
@@ -30,7 +33,7 @@ export default async function BillingPage() {
                 <h1 className="text-2xl font-bold">Billing & Plans</h1>
 
                 <div className="grid gap-6 lg:grid-cols-2">
-                    {/* Free Plan */}
+                    {/* Tarjeta Plan Free */}
                     <Card className={!isPro ? "border-2 border-primary" : ""}>
                         <CardHeader>
                             <CardTitle>Free Plan</CardTitle>
@@ -49,7 +52,7 @@ export default async function BillingPage() {
                         </CardFooter>
                     </Card>
 
-                    {/* Pro Plan */}
+                    {/* Tarjeta Plan Pro */}
                     <Card className={isPro ? "border-2 border-primary" : ""}>
                         <CardHeader>
                             <CardTitle>Pro Plan</CardTitle>
@@ -65,11 +68,8 @@ export default async function BillingPage() {
                             {isPro ? (
                                 <Button className="w-full" disabled>Active</Button>
                             ) : (
-                                <form action={createCheckoutSession} className="w-full">
-                                    <Button type="submit" className="w-full">
-                                        <CreditCard className="mr-2 h-4 w-4" /> Upgrade to Pro
-                                    </Button>
-                                </form>
+                                /* 3. Aquí usamos el componente de cliente para evitar el error */
+                                <UpgradeButton />
                             )}
                         </CardFooter>
                     </Card>

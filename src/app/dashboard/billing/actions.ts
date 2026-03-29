@@ -1,4 +1,4 @@
-
+'use server';
 import { createClient } from "@/lib/server-supabase";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";

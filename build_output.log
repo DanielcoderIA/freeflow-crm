@@ -1,0 +1,345 @@
+
+> freeflow-crm@0.1.0 build
+> next build
+
+Ôû▓ Next.js 16.1.2 (Turbopack)
+- Environments: .env.local
+
+ÔÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 15 errors:
+./src/app/login/page.tsx:3:10
+Ecmascript file had an error
+  1 |
+  2 | import { createClient } from "@/lib/supabase";
+> 3 | import { useRouter } from "next/navigation";
+    |          ^^^^^^^^^
+  4 | import { useState } from "react";
+  5 | import { Button } from "@/components/ui/button";
+  6 | import {
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+
+./src/app/login/page.tsx:4:10
+Ecmascript file had an error
+  2 | import { createClient } from "@/lib/supabase";
+  3 | import { useRouter } from "next/navigation";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Button } from "@/components/ui/button";
+  6 | import {
+  7 |   Card,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+
+./src/components/clients/ClientFormDialog.tsx:15:10
+Ecmascript file had an error
+  13 | import { Label } from "@/components/ui/label";
+  14 | import { Plus } from "lucide-react";
+> 15 | import { useState } from "react";
+     |          ^^^^^^^^
+  16 | import { addClient } from "@/app/dashboard/clients/actions";
+  17 | import { toast } from "sonner";
+  18 |
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/clients/ClientFormDialog.tsx
+    ./src/app/dashboard/clients/page.tsx
+
+
+./src/components/invoices/InvoiceFormDialog.tsx:3:10
+Ecmascript file had an error
+  1 |
+  2 | import { useState } from "react";
+> 3 | import { useFormStatus } from "react-dom";
+    |          ^^^^^^^^^^^^^
+  4 | import {
+  5 |     Dialog,
+  6 |     DialogContent,
+
+You're importing a component that needs `useFormStatus`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/invoices/InvoiceFormDialog.tsx
+    ./src/components/invoices/SafeInvoices.tsx
+    ./src/app/dashboard/invoices/page.tsx
+
+
+./src/components/invoices/InvoiceFormDialog.tsx:2:10
+Ecmascript file had an error
+  1 |
+> 2 | import { useState } from "react";
+    |          ^^^^^^^^
+  3 | import { useFormStatus } from "react-dom";
+  4 | import {
+  5 |     Dialog,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/invoices/InvoiceFormDialog.tsx
+    ./src/components/invoices/SafeInvoices.tsx
+    ./src/app/dashboard/invoices/page.tsx
+
+
+./src/components/invoices/SafeInvoices.tsx:2:10
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |          ^^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/invoices/SafeInvoices.tsx
+    ./src/app/dashboard/invoices/page.tsx
+
+
+./src/components/invoices/SafeInvoices.tsx:2:21
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |                     ^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/invoices/SafeInvoices.tsx
+    ./src/app/dashboard/invoices/page.tsx
+
+
+./src/components/projects/ProjectActionsMenu.tsx:14:10
+Ecmascript file had an error
+  12 | import { createInvoiceFromProject } from "@/app/dashboard/projects/actions";
+  13 | import { toast } from "sonner";
+> 14 | import { useRouter } from "next/navigation";
+     |          ^^^^^^^^^
+  15 |
+  16 | interface ProjectActionsMenuProps {
+  17 |     projectId: string;
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/projects/ProjectActionsMenu.tsx
+    ./src/components/projects/SafeProjects.tsx
+    ./src/app/dashboard/projects/page.tsx
+
+
+./src/components/projects/ProjectFormDialog.tsx:22:10
+Ecmascript file had an error
+  20 | } from "@/components/ui/select";
+  21 | import { Plus } from "lucide-react";
+> 22 | import { useState } from "react";
+     |          ^^^^^^^^
+  23 | import { addProject } from "@/app/dashboard/projects/actions";
+  24 |
+  25 | interface Client {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/projects/ProjectFormDialog.tsx
+    ./src/components/projects/SafeProjects.tsx
+    ./src/app/dashboard/projects/page.tsx
+
+
+./src/components/projects/SafeProjects.tsx:2:10
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |          ^^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/projects/SafeProjects.tsx
+    ./src/app/dashboard/projects/page.tsx
+
+
+./src/components/projects/SafeProjects.tsx:2:21
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |                     ^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/projects/SafeProjects.tsx
+    ./src/app/dashboard/projects/page.tsx
+
+
+./src/components/proposals/ProposalFormDialog.tsx:3:10
+Ecmascript file had an error
+  1 |
+  2 | import { useState } from "react";
+> 3 | import { useFormStatus } from "react-dom";
+    |          ^^^^^^^^^^^^^
+  4 | import {
+  5 |     Dialog,
+  6 |     DialogContent,
+
+You're importing a component that needs `useFormStatus`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/proposals/ProposalFormDialog.tsx
+    ./src/components/proposals/SafeProposals.tsx
+    ./src/app/dashboard/proposals/page.tsx
+
+
+./src/components/proposals/ProposalFormDialog.tsx:2:10
+Ecmascript file had an error
+  1 |
+> 2 | import { useState } from "react";
+    |          ^^^^^^^^
+  3 | import { useFormStatus } from "react-dom";
+  4 | import {
+  5 |     Dialog,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/proposals/ProposalFormDialog.tsx
+    ./src/components/proposals/SafeProposals.tsx
+    ./src/app/dashboard/proposals/page.tsx
+
+
+./src/components/proposals/SafeProposals.tsx:2:10
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |          ^^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/proposals/SafeProposals.tsx
+    ./src/app/dashboard/proposals/page.tsx
+
+
+./src/components/proposals/SafeProposals.tsx:2:21
+Ecmascript file had an error
+  1 |
+> 2 | import { useEffect, useState } from "react";
+    |                     ^^^^^^^^
+  3 | import { formatCurrency } from "@/lib/format";
+  4 | import {
+  5 |     Card,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/components/proposals/SafeProposals.tsx
+    ./src/app/dashboard/proposals/page.tsx
+
+
+    at <unknown> (./src/app/login/page.tsx:3:10)
+    at <unknown> (./src/app/login/page.tsx:4:10)
+    at <unknown> (./src/components/clients/ClientFormDialog.tsx:15:10)
+    at <unknown> (./src/components/invoices/InvoiceFormDialog.tsx:3:10)
+    at <unknown> (./src/components/invoices/InvoiceFormDialog.tsx:2:10)
+    at <unknown> (./src/components/invoices/SafeInvoices.tsx:2:10)
+    at <unknown> (./src/components/invoices/SafeInvoices.tsx:2:21)
+    at <unknown> (./src/components/projects/ProjectActionsMenu.tsx:14:10)
+    at <unknown> (./src/components/projects/ProjectFormDialog.tsx:22:10)
+    at <unknown> (./src/components/projects/SafeProjects.tsx:2:10)
+    at <unknown> (./src/components/projects/SafeProjects.tsx:2:21)
+    at <unknown> (./src/components/proposals/ProposalFormDialog.tsx:3:10)
+    at <unknown> (./src/components/proposals/ProposalFormDialog.tsx:2:10)
+    at <unknown> (./src/components/proposals/SafeProposals.tsx:2:10)
+    at <unknown> (./src/components/proposals/SafeProposals.tsx:2:21)

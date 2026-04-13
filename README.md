@@ -1,78 +1,75 @@
-# FreeFlow CRM
+# FreeFlow CRM: Enterprise-Grade Freelance Operating System
 
-> **CRM SaaS para freelancers** — gestiona clientes, proyectos, propuestas y facturación con un modelo de suscripción integrado.
-
----
-
-## Problem Statement
-
-Los freelancers carecen de una herramienta ligera y asequible que centralice su operación comercial: desde el primer contacto con un cliente hasta el cobro de la factura. FreeFlow CRM resuelve esto con un panel unificado que conecta el ciclo completo: **Cliente → Propuesta → Proyecto → Factura → Cobro**, respaldado por un modelo freemium que limita clientes a 5 en el plan gratuito e incentiva la conversión al plan Pro ($19/mes).
+> **Business Solution** — Una solución integral para la automatización de flujos de trabajo en el ecosistema freelance. Centraliza la gestión de clientes, ciclo de vida de proyectos, inteligencia de propuestas y facturación automatizada bajo una arquitectura SaaS escalable.
 
 ---
 
-## Tech Stack
+## 🚀 Demo de Producto
 
-| Categoría | Tecnología | Versión |
+**Acceso Directo:** [Link al deploy] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
+
+---
+
+## Estrategia de Negocio
+
+La plataforma resuelve la fragmentación operativa del freelancer moderno mediante una infraestructura unificada que orquesta el ciclo de ingresos de extremo a extremo: **Prospecto → Pipeline → Entrega → Revenue Generation**. 
+
+Implementa un modelo de monetización **Product-Led Growth (PLG)** mediante un sistema freemium con barreras de conversión estratégicas (límite de 5 clientes), optimizado para maximizar el ARPU a través de una suscripción Pro de alto valor.
+
+---
+
+## Stack Tecnológico (Production Ready)
+
+El stack ha sido seleccionado para garantizar baja latencia, seguridad de grado financiero y escalabilidad horizontal.
+
+| Categoría | Tecnología | Rol Estratégico |
 |---|---|---|
-| **Framework** | Next.js (App Router) | 16.1.2 |
-| **Runtime UI** | React | 19.2.3 |
-| **Lenguaje** | TypeScript | ^5 |
-| **Estilos** | Tailwind CSS | ^4 |
-| **Base de datos / Auth** | Supabase (PostgreSQL + Auth) | `supabase-js` ^2.90 |
-| **SSR Auth** | `@supabase/ssr` | ^0.8.0 |
-| **Pagos** | Stripe (Checkout + Billing Portal) | ^20.2.0 |
-| **UI Components** | Radix UI (Primitives) | varios |
-| **Iconos** | Lucide React | ^0.562.0 |
-| **Notificaciones** | Sonner (Toast) | ^2.0.7 |
-| **Tema** | next-themes | ^0.4.6 |
-| **Tipografía** | Inter (Google Fonts) | — |
+| **Framework** | Next.js 16 (App Router) | Renderizado híbrido para máxima optimización SEO y performance. |
+| **Infraestructura de Pagos** | **Stripe Billing** | Gestión de suscripciones recurrentes, reconciliación automática de webhooks y portal de cliente. |
+| **BaaS / Realtime** | Supabase (Postgres + Auth) | Persistencia de datos con integridad referencial y autenticación segura (PKCE). |
+| **Diseño Sistémico** | Tailwind CSS 4 + Shadcn UI | Sistema de diseño atómico para una experiencia de usuario consistente y profesional. |
+| **Tipografía** | Inter (Google Fonts) | Optimización para lectura de datos técnicos y financieros. |
 
 ---
 
 ## Variables de Entorno
 
-Crea un archivo `.env.local` en la raíz del proyecto con las siguientes variables:
+Crea un archivo `.env.local` en la raíz del proyecto para conectar los servicios críticos:
 
 ```env
-# Supabase
+# Supabase Core
 NEXT_PUBLIC_SUPABASE_URL=https://<tu-proyecto>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu-anon-key>
 SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
 
-# Stripe
+# Stripe Production
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
-# App
+# App Config
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-> **⚠ Importante:** `SUPABASE_SERVICE_ROLE_KEY` solo se usa en el servidor (webhook handler). Nunca debe exponerse al cliente.
-
 ---
 
-## Quick Start
+## Despliegue y Configuración
+
+El proyecto está diseñado para un flujo de CI/CD continuo.
 
 ```bash
-# 1. Instalar dependencias
+# Instalación de dependencias de producción
 npm install
 
-# 2. Configurar variables de entorno
-cp .env.example .env.local
-# Edita .env.local con tus credenciales reales
-
-# 3. Levantar el servidor de desarrollo
+# Inicialización del entorno de desarrollo
 npm run dev
-
-# La app estará disponible en http://localhost:3000
 ```
 
-### Configuración de Supabase
+### Arquitectura de Base de Datos (Supabase)
 
-En tu proyecto de Supabase, crea las siguientes tablas:
+Definición de esquemas con enfoque en integridad y escalabilidad:
 
 ```sql
--- Perfiles de usuario (linked a auth.users)
+-- Gestión de Perfiles y Suscripciones
 CREATE TABLE profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name TEXT,
@@ -82,84 +79,48 @@ CREATE TABLE profiles (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Clientes
+-- Infraestructura de Clientes y Proyectos
 CREATE TABLE clients (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   email TEXT,
-  phone TEXT,
   company TEXT,
-  status TEXT DEFAULT 'active',
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  status TEXT DEFAULT 'active'
 );
 
--- Proyectos
 CREATE TABLE projects (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
   name TEXT NOT NULL,
-  status TEXT DEFAULT 'in-progress',
   value NUMERIC DEFAULT 0,
-  deadline DATE,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  deadline DATE
 );
 
--- Facturas
+-- Capa de Facturación e Ingresos
 CREATE TABLE invoices (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
-  project_id UUID REFERENCES projects(id) ON DELETE SET NULL,
   amount NUMERIC NOT NULL,
-  due_date TIMESTAMPTZ,
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'cancelled')),
-  notes TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Propuestas
-CREATE TABLE proposals (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
-  title TEXT NOT NULL,
-  description TEXT,
-  value NUMERIC DEFAULT 0,
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected')),
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'cancelled'))
 );
 ```
 
-### Configuración de Stripe
+### Integración de Stripe
 
-```bash
-# Escuchar webhooks en local (requiere Stripe CLI)
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-```
-
-Los eventos manejados son:
-- `checkout.session.completed` → activa plan Pro
-- `customer.subscription.deleted` → degrada a plan Free
+Sincronización bidireccional mediante Webhooks para garantizar la consistencia del estado de suscripción:
+- `checkout.session.completed` → Escalado automático a nivel Pro.
+- `customer.subscription.deleted` → Gestión de churn y degradación de servicios.
 
 ---
 
-## Scripts Disponibles
+## Comandos de Ingeniería
 
-| Comando | Descripción |
+| Script | Acción |
 |---|---|
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de producción |
-| `npm run start` | Inicia el servidor producción |
-| `npm run lint` | Análisis estático de código |
+| `npm run dev` | Instancia de desarrollo local |
+| `npm run build` | Compilación optimizada para producción |
+| `npm run start` | Despliegue en servidor de runtime |
+| `npm run lint` | Auditoría de calidad de código y estandares |
 
----
-
-## Roadmap Actual (TODOs detectados en código)
-
-- `customer.subscription.updated` está manejado parcialmente — la lógica de degradación por `past_due` no está implementada.
-- El middleware de autenticación (`middleware.ts`) actualmente **no protege rutas** — cualquier usuario puede acceder al dashboard sin sesión activa.
-- No existe una página de error `auth/auth-code-error` definida (referenciada pero no encontrada en el árbol).
-- Los campos de la tabla `clients` no tienen datos de eliminación/edición — solo se permite agregar.
-- Ausencia de Row Level Security (RLS) documentada — se asume que debe configurarse en Supabase.

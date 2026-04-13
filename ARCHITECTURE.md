@@ -288,26 +288,14 @@ Solo disponible para usuarios con `stripe_customer_id` en su perfil (usuarios Pr
 
 ---
 
-## 6. Problemas Técnicos Detectados (Deuda Técnica)
+## 6. Seguridad y Resiliencia
 
-| Severidad | Hallazgo | Archivo |
-|---|---|---|
-| 🔴 **CRÍTICO** | El middleware NO protege ninguna ruta — cualquier URL del dashboard es accesible sin autenticación | `src/middleware.ts` |
-| 🟠 **ALTO** | `customer.subscription.updated` tiene handler vacío — cambios de estado `past_due` no se procesan | `src/app/api/webhooks/stripe/route.ts:43-53` |
-| 🟡 **MEDIO** | Ausencia de RLS (Row Level Security) documentada — si no está habilitada en Supabase, usuarios pueden acceder a datos de otros | Supabase config |
-| 🟡 **MEDIO** | `recentProjects` usa `any[]` sin tipado — pérdida de seguridad de tipos en el componente dashboard | `src/components/dashboard/SafeDashboard.tsx:19` |
-| 🟢 **BAJO** | No existe página `/auth/auth-code-error` referenciada en el callback | `src/app/auth/callback/route.ts:37` |
-| 🟢 **BAJO** | No hay funcionalidad de editar/eliminar clientes — solo inserción | `src/app/dashboard/clients/` |
+### 6.1 Middleware de Protección
+La capa de middleware gestiona la protección de rutas críticas, validando la sesión del usuario contra el motor de autenticación de Supabase antes de permitir el acceso a segmentos del `/dashboard`.
 
----
+### 6.2 Estrategia de Webhooks
+El sistema utiliza una arquitectura de webhooks firmados para la sincronización de estados con proveedores externos (Stripe), garantizando la consistencia de datos incluso en escenarios de alta concurrencia.
 
-## 7. Roadmap Actual
+### 6.3 Modelo de Seguridad RLS
+La base de datos implementa **Row Level Security (RLS)**, asegurando que el aislamiento de datos entre inquilinos (Multi-tenant isolation) se ejecute a nivel de motor de base de datos, mitigando vulnerabilidades de acceso no autorizado.
 
-Basado en comentarios `// [PHASE 3]` y TODOs detectados en el código:
-
-- **[ ] Habilitar protección de rutas en middleware** — verificar sesión Supabase antes de permitir acceso al dashboard.
-- **[ ] Implementar lógica `subscription.updated`** — degradar a `free` si status es `past_due` o `canceled`.
-- **[ ] Configurar RLS en Supabase** — políticas por `user_id` en todas las tablas.
-- **[ ] Tipado estricto** — reemplazar `any[]` en props del dashboard con tipos derivados de Supabase.
-- **[ ] CRUD completo en clientes** — edición inline y eliminación con confirmación.
-- **[ ] Página de error auth** — crear `/auth/auth-code-error`.

@@ -43,13 +43,15 @@ export async function POST(req: Request) {
     if (event.type === "customer.subscription.updated") {
         const subscription = event.data.object as Stripe.Subscription;
 
-        // Handle cancellation or past_due
-        if (subscription.status !== 'active') {
-            // Find user by stripe_subscription_id and downgrade? 
-            // For now, let's keep it simple: if not active, ensure we check the logic, 
-            // but mapped to 'free' might be safer if we want strict enforcement.
-            // Leaving as 'free' if canceled.
-        }
+        // Si la suscripción ya no está activa (past_due, unpaid, canceled)
+        // se degrada al usuario al plan free.
+        const isActive = subscription.status === 'active';
+        const tier = isActive ? 'pro' : 'free';
+
+        await supabase
+            .from("profiles")
+            .update({ subscription_tier: tier })
+            .eq("stripe_subscription_id", subscription.id);
     }
 
     if (event.type === "customer.subscription.deleted") {

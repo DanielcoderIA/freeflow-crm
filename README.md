@@ -6,7 +6,7 @@
 
 ## 🚀 Demo de Producto
 
-**Acceso Directo:** [Link al deploy] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
+**Acceso Directo:** [https://freeflow-crm-smvr.vercel.app/login] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
 
 ---
 

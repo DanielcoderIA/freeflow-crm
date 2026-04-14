@@ -1,131 +1,82 @@
-# FreeFlow CRM: Enterprise-Grade Freelance Operating System
+# FreeFlow CRM: The Freelance Operating System
 
-> **Business Solution** — Una solución integral para la automatización de flujos de trabajo en el ecosistema freelance. Centraliza la gestión de clientes, ciclo de vida de proyectos, inteligencia de propuestas y facturación automatizada bajo una arquitectura SaaS escalable.
-
----
-
-## 🚀 Demo de Producto
-
-**Acceso Directo:** [https://freeflow-crm-smvr.vercel.app/login?demo=true] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
+> **Business Solution** — Una infraestructura unificada diseñada para eliminar la fragmentación operativa del freelancer profesional. Gestiona el ciclo de vida completo del negocio: **Prospección de Clientes → Cierre de Propuestas → Ejecución de Proyectos → Facturación Automatizada.**
 
 ---
 
-## Estrategia de Negocio
+## 🚀 Demo de Producto (Recruiter UX)
 
-La plataforma resuelve la fragmentación operativa del freelancer moderno mediante una infraestructura unificada que orquesta el ciclo de ingresos de extremo a extremo: **Prospecto → Pipeline → Entrega → Revenue Generation**. 
+He diseñado una experiencia optimizada para reclutadores técnicos. Haz clic en el enlace de abajo para acceder instantáneamente a un panel con datos reales sin necesidad de registro:
 
-Implementa un modelo de monetización **Product-Led Growth (PLG)** mediante un sistema freemium con barreras de conversión estratégicas (límite de 5 clientes), optimizado para maximizar el ARPU a través de una suscripción Pro de alto valor.
+**Acceso Directo:** [https://freeflow-crm-smvr.vercel.app/login?demo=true]
+
+> [!NOTE]
+> Al entrar vía este enlace, la plataforma detecta el parámetro asíncronamente y autentica una sesión demo contra Supabase Auth, mostrando un estado de carga dedicado.
 
 ---
 
-## Stack Tecnológico (Production Ready)
+## Arquitectura de Producto
 
-El stack ha sido seleccionado para garantizar baja latencia, seguridad de grado financiero y escalabilidad horizontal.
+FreeFlow CRM no es solo una base de datos; es un sistema de orquestación financiera y operativa construido sobre un stack moderno y escalable.
 
-| Categoría | Tecnología | Rol Estratégico |
+### 1. Sistema de Control Operativo
+- **Gestión Multi-Entidad**: Orquestación integral de Clientes, Proyectos, Facturas e Invoices con integridad referencial a nivel de Postgres.
+- **KPI Dashboard**: Agregación de métricas críticas en el servidor (Revenue, Pipeline, ARPU) para una toma de decisiones informada.
+
+### 2. Motor de Monetización (Freemium-Led Growth)
+Integración nativa con **Stripe Billing** para gestionar el flujo de ingresos:
+- **Modelo PLG**: Limitación estratégica a 5 clientes en el plan Free, forzando la conversión a Pro para negocios en crecimiento.
+- **Stripe Checkout & Customer Portal**: Gestión delegada de suscripciones, métodos de pago y facturas históricas.
+- **Sincronización Transaccional**: Manejo de webhooks firmados para sincronizar el estado de la suscripción (active, past_due, canceled) en tiempo real con la base de datos.
+
+### 3. Seguridad de Datos Proactiva
+- **Aislamiento de Inquilinos (Multi-tenancy)**: Implementación estricta de **Row Level Security (RLS)** en Postgres, garantizando que un usuario jamás acceda a los datos de otro.
+- **Protección de Rutas**: Middleware configurado a nivel de Edge para validar la sesión antes de renderizar cualquier segmento crítico del dashboard.
+
+---
+
+## Stack Tecnológico
+
+| Categoría | Tecnología | Justificación Técnica |
 |---|---|---|
-| **Inteligencia Artificial** | **Gemini 1.5 / Groq / RAG** | Motor de procesamiento de lenguaje natural para categorización de proyectos y análisis predictivo de facturación. |
-| **Framework** | Next.js 16 (App Router) | Renderizado híbrido para máxima optimización SEO y performance. |
-| **Infraestructura de Pagos** | **Stripe Billing** | Gestión de suscripciones recurrentes, reconciliación automática de webhooks y portal de cliente. |
-| **BaaS / Realtime** | Supabase (Postgres + Auth) | Persistencia de datos con integridad referencial y autenticación segura (PKCE). |
-| **Diseño Sistémico** | Tailwind CSS 4 + Shadcn UI | Sistema de diseño atómico para una experiencia de usuario consistente y profesional. |
-| **Tipografía** | Inter (Google Fonts) | Optimización para lectura de datos técnicos y financieros. |
+| **Framework** | Next.js 15+ (App Router) | Optimización de LCP mediante Server Components y mutaciones atómicas con Server Actions. |
+| **BaaS / Infra** | Supabase (Postgres + Auth) | Backend serverless con persistencia robusta, autenticación PKCE y almacenamiento de cookies seguro. |
+| **Pagos** | Stripe | Infraestructura financiera escalable con SDK nativa de Node.js. |
+| **UI System** | Tailwind CSS 4 + Shadcn UI | Sistema de diseño atómico basado en variables CSS para facilitar el mantenimiento. |
+| **UX / Feedback** | Sonner & Lucide | Comunicación visual de estados mediante micro-interacciones y notificaciones no intrusivas. |
 
 ---
 
-## Variables de Entorno
+## Despliegue y Desarrollo Local
 
-Crea un archivo `.env.local` en la raíz del proyecto para conectar los servicios críticos:
+### Requisitos Previos
+- Cuenta en Supabase (DB + Auth).
+- Cuenta en Stripe (Modo Test).
 
-```env
-# Supabase Core
-NEXT_PUBLIC_SUPABASE_URL=https://<tu-proyecto>.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<tu-anon-key>
-SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
-
-# Stripe Production
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-
-# AI Infrastructure
-GROQ_API_KEY=gsk_...
-GEMINI_API_KEY=...
-
-# App Config
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
----
-
-## Despliegue y Configuración
-
-El proyecto está diseñado para un flujo de CI/CD continuo.
-
-```bash
-# Instalación de dependencias de producción
-npm install
-
-# Inicialización del entorno de desarrollo
-npm run dev
-```
-
-### Arquitectura de Base de Datos (Supabase)
-
-Definición de esquemas con enfoque en integridad y escalabilidad:
-
-```sql
--- Gestión de Perfiles y Suscripciones
-CREATE TABLE profiles (
-  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  full_name TEXT,
-  subscription_tier TEXT DEFAULT 'free' CHECK (subscription_tier IN ('free', 'pro')),
-  stripe_customer_id TEXT,
-  stripe_subscription_id TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Infraestructura de Clientes y Proyectos
-CREATE TABLE clients (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  name TEXT NOT NULL,
-  email TEXT,
-  company TEXT,
-  status TEXT DEFAULT 'active'
-);
-
-CREATE TABLE projects (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
-  name TEXT NOT NULL,
-  value NUMERIC DEFAULT 0,
-  deadline DATE
-);
-
--- Capa de Facturación e Ingresos
-CREATE TABLE invoices (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  amount NUMERIC NOT NULL,
-  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'cancelled'))
-);
-```
-
-### Integración de Stripe
-
-Sincronización bidireccional mediante Webhooks para garantizar la consistencia del estado de suscripción:
-- `checkout.session.completed` → Escalado automático a nivel Pro.
-- `customer.subscription.deleted` → Gestión de churn y degradación de servicios.
+### Instalación
+1. Clonar el repositorio.
+2. Instalar dependencias: `npm install`.
+3. Configurar `.env.local`:
+   ```env
+   # Supabase
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   
+   # Stripe
+   STRIPE_SECRET_KEY=...
+   STRIPE_WEBHOOK_SECRET=...
+   
+   # Recruiter Demo
+   NEXT_PUBLIC_DEMO_EMAIL=demo@test.com
+   NEXT_PUBLIC_DEMO_PASSWORD=Demo1234
+   ```
+4. Levantar servidor: `npm run dev`.
 
 ---
 
 ## Comandos de Ingeniería
 
-| Script | Acción |
-|---|---|
-| `npm run dev` | Instancia de desarrollo local |
-| `npm run build` | Compilación optimizada para producción |
-| `npm run start` | Despliegue en servidor de runtime |
-| `npm run lint` | Auditoría de calidad de código y estandares |
+- `npm run dev`: Instancia de desarrollo local.
+- `npm run build`: Compilación optimizada para producción.
+- `npm run lint`: Auditoría de calidad de código bajo estándares modernos.
 

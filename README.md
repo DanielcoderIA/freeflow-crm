@@ -6,7 +6,7 @@
 
 ## 🚀 Demo de Producto
 
-**Acceso Directo:** [https://freeflow-crm-smvr.vercel.app/login] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
+**Acceso Directo:** [https://freeflow-crm-smvr.vercel.app/login?demo=true] | **Usuario Demo:** demo@test.com | **Password:** Demo1234
 
 ---
 
@@ -24,6 +24,7 @@ El stack ha sido seleccionado para garantizar baja latencia, seguridad de grado 
 
 | Categoría | Tecnología | Rol Estratégico |
 |---|---|---|
+| **Inteligencia Artificial** | **Gemini 1.5 / Groq / RAG** | Motor de procesamiento de lenguaje natural para categorización de proyectos y análisis predictivo de facturación. |
 | **Framework** | Next.js 16 (App Router) | Renderizado híbrido para máxima optimización SEO y performance. |
 | **Infraestructura de Pagos** | **Stripe Billing** | Gestión de suscripciones recurrentes, reconciliación automática de webhooks y portal de cliente. |
 | **BaaS / Realtime** | Supabase (Postgres + Auth) | Persistencia de datos con integridad referencial y autenticación segura (PKCE). |
@@ -45,6 +46,10 @@ SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
 # Stripe Production
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
+
+# AI Infrastructure
+GROQ_API_KEY=gsk_...
+GEMINI_API_KEY=...
 
 # App Config
 NEXT_PUBLIC_APP_URL=http://localhost:3000

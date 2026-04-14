@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import {
     Table,
     TableBody,
@@ -30,6 +31,18 @@ export function SafeDashboard({
 
     useEffect(() => {
         setIsMounted(true);
+
+        if (sessionStorage.getItem("demo_welcome") === "true") {
+            toast("¡Bienvenido, Reclutador!", {
+                description: "Estás explorando Freeflow CRM en modo demostración.",
+                duration: 8000,
+                action: {
+                    label: "Ver código",
+                    onClick: () => window.open("https://github.com/DanielcoderIA/freeflow-crm", "_blank")
+                },
+            });
+            sessionStorage.removeItem("demo_welcome");
+        }
     }, []);
 
     if (!isMounted) {

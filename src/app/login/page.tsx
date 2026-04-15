@@ -14,6 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -34,71 +36,125 @@ function LoginForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  const validateForm = () => {
+    if (!email || !email.includes("@")) {
+      toast.error("Por favor, ingresa un correo electrónico válido.");
+      return false;
+    }
+    if (password.length < 6) {
+      toast.error("La contraseña debe tener al menos 6 caracteres.");
+      return false;
+    }
+    return true;
+  };
+
+  const translateError = (message: string) => {
+    if (message.includes("Invalid login credentials")) return "Credenciales inválidas. Revisa tu email y contraseña.";
+    if (message.includes("Email not confirmed")) return "Email no confirmado. Por favor, revisa tu bandeja de entrada.";
+    if (message.includes("User already registered")) return "Este correo ya está registrado.";
+    return `Error: ${message}`;
+  };
+
   const performDemoLogin = async () => {
     setLoading(true);
     setError(null);
     
-    const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
-    const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+    try {
+      const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
+      const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
 
-    if (!demoEmail || !demoPassword) {
-      setError("Credenciales demo no configuradas.");
+      if (!demoEmail || !demoPassword) {
+        const msg = "Credenciales demo no configuradas.";
+        setError(msg);
+        toast.error(msg);
+        setLoading(false);
+        setIsDemoMode(false);
+        return;
+      }
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: demoEmail,
+        password: demoPassword,
+      });
+
+      if (error) {
+        const translated = translateError(error.message);
+        setError(translated);
+        toast.error(translated);
+        setLoading(false);
+        setIsDemoMode(false);
+      } else {
+        sessionStorage.setItem("demo_welcome", "true");
+        toast.success("Accediendo en modo demo...");
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch (e: any) {
+      console.error("Demo login crash:", e);
+      toast.error("Error crítico al intentar acceder en modo demo.");
       setLoading(false);
       setIsDemoMode(false);
-      return;
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email: demoEmail,
-      password: demoPassword,
-    });
-
-    if (error) {
-      setError(`Error demo: ${error.message}`);
-      setLoading(false);
-      setIsDemoMode(false);
-    } else {
-      sessionStorage.setItem("demo_welcome", "true");
-      router.push("/dashboard");
-      router.refresh();
     }
   };
+
 
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     setLoading(true);
     setError(null);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
-      router.push("/dashboard");
-      router.refresh();
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      setLoading(false);
+      if (error) {
+        const translated = translateError(error.message);
+        setError(translated);
+        toast.error(translated);
+      } else {
+        toast.success("¡Bienvenido de nuevo!");
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch (e: any) {
+      setLoading(false);
+      toast.error("Error inesperado de red.");
     }
   };
 
   const handleSignUp = async () => {
+    if (!validateForm()) return;
+
     setLoading(true);
     setError(null);
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-    setLoading(false);
-    if (error) {
-      setError(error.message);
-    } else {
-      setError("Check your email for the confirmation link.");
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+        },
+      });
+      setLoading(false);
+      if (error) {
+        const translated = translateError(error.message);
+        setError(translated);
+        toast.error(translated);
+      } else {
+        const msg = "Revisa tu email para el enlace de confirmación.";
+        setError(msg);
+        toast.success(msg);
+      }
+    } catch (e: any) {
+      setLoading(false);
+      toast.error("Error inesperado en el registro.");
     }
   };
+
 
   if (isDemoMode) {
     return (

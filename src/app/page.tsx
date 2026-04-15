@@ -1,5 +1,4 @@
-"use client"; // <--- ESTA ES LA LÍNEA QUE FALTABA
-
+"use client";
 import React, { useState, useEffect } from "react";
 import {
   Terminal,
@@ -13,7 +12,8 @@ import {
   Moon,
   Zap,
   ShieldCheck,
-  Globe
+  Globe,
+  Play
 } from "lucide-react";
 
 /**
@@ -81,10 +81,20 @@ const App = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <button className="w-full sm:w-auto h-14 px-10 bg-slate-900 text-white rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-slate-200 tracking-tight">
+            <a
+              href="/login"
+              className="w-full sm:w-auto h-14 px-10 bg-slate-900 text-white rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-slate-200 tracking-tight"
+            >
               Empezar ahora
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
+            <a
+              href="/login?demo=true"
+              className="w-full sm:w-auto h-14 px-10 bg-white text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2 group tracking-tight"
+            >
+              Ver demo
+              <Play className="w-4 h-4 fill-current text-slate-400 group-hover:text-blue-600 transition-colors" />
+            </a>
           </div>
         </div>
 
@@ -150,7 +160,7 @@ const App = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {[
                   { text: 'Pipeline visualizado', icon: BarChart3 },
-                  { text: 'Status en tiempo real', icon: Zap },
+                  { text: 'Estado en tiempo real', icon: Zap },
                   { text: 'Seguridad avanzada', icon: ShieldCheck },
                   { text: 'Acceso global', icon: Globe }
                 ].map((item, i) => (
@@ -163,7 +173,6 @@ const App = () => {
           </div>
 
           <div className="md:col-span-4 bg-slate-900 rounded-[40px] p-10 text-white flex flex-col justify-center relative overflow-hidden group">
-            {/* Elemento decorativo */}
             <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:scale-125 transition-transform duration-700"></div>
 
             <div className="relative z-10 text-center space-y-6">

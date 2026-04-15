@@ -1,3 +1,5 @@
+"use client"; // <--- ESTA ES LA LÍNEA QUE FALTABA
+
 import React, { useState, useEffect } from "react";
 import {
   Terminal,
@@ -8,14 +10,12 @@ import {
   LayoutDashboard,
   Wallet,
   Clock,
-  ChevronRight,
   Database
 } from "lucide-react";
 
 /**
  * Landing Page Ultra-Professional - FreeFlow CRM
- * Enfoque: Minimalismo Extremo, Ingeniería y Claridad Visual.
- * Paleta: Slate-950 (Texto), Slate-50 (Fondo), Blue-600 (Acento).
+ * Corregida con directiva "use client" para evitar errores de Build.
  */
 
 const App = () => {
@@ -30,7 +30,7 @@ const App = () => {
   return (
     <div className="relative min-h-screen w-full bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
 
-      {/* 1. Fondo de Ingeniería - Grid de precisión */}
+      {/* 1. Fondo de Ingeniería */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div
           className="absolute inset-0 opacity-[0.08]"
@@ -48,7 +48,7 @@ const App = () => {
           <div className="w-11 h-11 bg-[#1E293B] rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/10 border border-slate-700 transition-transform duration-500 group-hover:scale-105">
             <Terminal className="w-5 h-5 text-blue-100" />
           </div>
-          <span className="font-[900] tracking-tighter text-2xl uppercase">FreeFlow <span className="text-blue-600">CRM</span></span>
+          <span className="font-[900] tracking-tighter text-2xl uppercase text-[#0F172A]">FreeFlow <span className="text-blue-600">CRM</span></span>
         </div>
       </nav>
 
@@ -77,17 +77,15 @@ const App = () => {
           </p>
         </div>
 
-        {/* High-End Bento Grid */}
+        {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full max-w-6xl">
-
-          {/* Main Module Card */}
           <div className="md:col-span-8 bg-white rounded-[40px] border border-slate-200/60 p-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.02)] flex flex-col justify-between group hover:border-blue-200 transition-all duration-500">
             <div className="space-y-6">
               <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 transition-colors group-hover:bg-blue-50">
                 <LayoutDashboard className="w-7 h-7 text-blue-600" />
               </div>
               <div className="space-y-3">
-                <h3 className="text-3xl font-black tracking-tighter">Core Engine</h3>
+                <h3 className="text-3xl font-black tracking-tighter text-[#0F172A]">Core Engine</h3>
                 <p className="text-slate-500 text-lg leading-relaxed max-w-md">
                   Orquestación de clientes, proyectos y facturación unificada. Un sistema de una sola fuente de verdad para tu negocio independiente.
                 </p>
@@ -103,11 +101,10 @@ const App = () => {
             </div>
           </div>
 
-          {/* Stats Cluster */}
           <div className="md:col-span-4 flex flex-col gap-6">
             <div className="flex-1 bg-white rounded-[40px] border border-slate-200/60 p-10 shadow-sm flex flex-col justify-center items-center text-center group hover:border-blue-200 transition-all">
               <Wallet className="w-7 h-7 text-blue-600 mb-6" />
-              <div className="text-4xl font-black tracking-tighter">$0.00</div>
+              <div className="text-4xl font-black tracking-tighter text-[#0F172A]">$0.00</div>
               <div className="text-[11px] uppercase font-bold tracking-[0.2em] text-slate-400 mt-2">Revenue Node</div>
             </div>
             <div className="flex-1 bg-[#1E293B] rounded-[40px] p-10 shadow-2xl shadow-blue-900/20 flex flex-col justify-center items-center text-center">
@@ -120,7 +117,7 @@ const App = () => {
           </div>
         </div>
 
-        {/* CTA Section - Bold & Clean */}
+        {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-8 mt-24 w-full sm:w-auto">
           <a
             href="/login?register=true"
@@ -134,7 +131,7 @@ const App = () => {
 
           <a
             href="/login"
-            className="flex items-center justify-center h-20 px-14 text-lg font-bold text-[#1E293B] bg-transparent rounded-[2rem] border-2 border-slate-200 transition-all hover:bg-white hover:border-slate-300 active:scale-95 no-underline w-full sm:w-auto"
+            className="flex items-center justify-center h-20 px-14 text-lg font-bold text-[#1E293B] bg-transparent rounded-[2rem] border-2 border-slate-200 transition-all hover:bg-white hover:border-slate-300 active:scale-95 no-underline w-full sm:w-auto text-center"
           >
             Acceder
           </a>
@@ -142,14 +139,14 @@ const App = () => {
 
       </main>
 
-      {/* 4. Footer Minimalista Final */}
+      {/* Footer */}
       <footer className="relative z-10 py-20">
         <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-8">
           <div className="h-[1px] w-24 bg-slate-200" />
           <div className="flex flex-col items-center gap-3">
             <div className="flex items-center gap-2 opacity-30">
               <Terminal className="w-4 h-4" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.5em]">FreeFlow OS</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.5em] text-[#0F172A]">FreeFlow OS</span>
             </div>
             <p className="text-[11px] text-slate-400 font-bold uppercase tracking-widest">
               No UI clutter. Just pure infrastructure. 2026.
@@ -157,11 +154,6 @@ const App = () => {
           </div>
         </div>
       </footer>
-
-      {/* Líneas de Guía Estructural (Minimalismo arquitectónico) */}
-      <div className="fixed top-0 left-12 h-full w-[1px] bg-slate-200/30 pointer-events-none hidden 2xl:block" />
-      <div className="fixed top-0 right-12 h-full w-[1px] bg-slate-200/30 pointer-events-none hidden 2xl:block" />
-
     </div>
   );
 };

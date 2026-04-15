@@ -58,19 +58,12 @@ function LoginForm() {
   const performDemoLogin = async () => {
     setLoading(true);
     setError(null);
+    toast.info("Accediendo como Invitado...");
     
     try {
-      const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL;
-      const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
-
-      if (!demoEmail || !demoPassword) {
-        const msg = "Credenciales demo no configuradas.";
-        setError(msg);
-        toast.error(msg);
-        setLoading(false);
-        setIsDemoMode(false);
-        return;
-      }
+      // Fallback a credenciales conocidas si las variables de entorno fallan en el cliente
+      const demoEmail = process.env.NEXT_PUBLIC_DEMO_EMAIL || "demo@test.com";
+      const demoPassword = process.env.NEXT_PUBLIC_DEMO_PASSWORD || "Demo1234";
 
       const { error } = await supabase.auth.signInWithPassword({
         email: demoEmail,
@@ -85,7 +78,6 @@ function LoginForm() {
         setIsDemoMode(false);
       } else {
         sessionStorage.setItem("demo_welcome", "true");
-        toast.success("Accediendo en modo demo...");
         router.push("/dashboard");
         router.refresh();
       }
@@ -96,6 +88,7 @@ function LoginForm() {
       setIsDemoMode(false);
     }
   };
+
 
 
 
